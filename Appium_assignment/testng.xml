@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Suite">
+  <test thread-count="2" name="Test">
+    <classes>
+      <class name="appiumAssigment.Case1"/>
+      <class name="appiumAssigment.Case2"/>
+      <class name="appiumAssigment.Case3"/>
+      <class name="appiumAssigment.Case4"/>
+      <class name="appiumAssigment.Case5"/>
+    </classes>
+  </test> <!-- Test -->
+</suite> <!-- Suite -->

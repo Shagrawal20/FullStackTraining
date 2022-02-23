@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Failed suite [Suite]" guice-stage="DEVELOPMENT">
+  <test thread-count="5" name="Test(failed)">
+    <classes>
+      <class name="appiumAssigment.Case4">
+        <methods>
+          <include name="case4"/>
+          <include name="teardown"/>
+          <include name="setup"/>
+        </methods>
+      </class> <!-- appiumAssigment.Case4 -->
+      <class name="appiumAssigment.Case3">
+        <methods>
+          <include name="case3"/>
+          <include name="teardown"/>
+          <include name="setup"/>
+        </methods>
+      </class> <!-- appiumAssigment.Case3 -->
+      <class name="appiumAssigment.Case1">
+        <methods>
+          <include name="case1"/>
+          <include name="teardown"/>
+          <include name="setup"/>
+        </methods>
+      </class> <!-- appiumAssigment.Case1 -->
+      <class name="appiumAssigment.Case5">
+        <methods>
+          <include name="case5"/>
+          <include name="teardown"/>
+          <include name="setup"/>
+        </methods>
+      </class> <!-- appiumAssigment.Case5 -->
+      <class name="appiumAssigment.Case2">
+        <methods>
+          <include name="teardown"/>
+          <include name="setup"/>
+          <include name="case2"/>
+        </methods>
+      </class> <!-- appiumAssigment.Case2 -->
+    </classes>
+  </test> <!-- Test(failed) -->
+</suite> <!-- Failed suite [Suite] -->

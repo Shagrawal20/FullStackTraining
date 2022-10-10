@@ -1,0 +1,123 @@
+1. Upload hr_db dataset into HDFS
+   > In the already created shared folder in the local system, load the data and in VM
+    
+Check the version of Hadoop
+   $ hadoop version
+
+Check if Hadoop services are running
+   $ jps
+
+Start Hadoop services
+
+   $ cd /usr/local/hadoop-2.9.1/sbin
+
+   $ ./start-all.sh
+
+   $ cd
+
+   $ jps
+   $ chmod 777 Downloads/mountsf
+   $ sh Downloads/mountsf
+
+   > Load hr_db dataset into HDFS
+   $ hadoop fs -mkdir /user/hduser/hr_db
+   $ hadoop fs -put /home/hduser/Downloads/sharedfolder/hr_db/employees/part-00000.csv /user/hduser/hr_db
+
+   $ hadoop fs -cat /user/hduser/hr_db/part-00000.csv
+
+ hive> CREATE DATABASE employees_demo_db ;
+    hive> SHOW DATABASES ;
+    hive> USE employees_demo_db ;
+    
+    hive> CREATE EXTERNAL TABLE employees(
+    >             first_name STRING,
+    >             last_name STRING,
+    >             email STRING,
+    >             phone_number INT,
+    >             hire_date INT,
+    >             job_id INT,
+    >             salary INT,
+    >             commission_pct FLOAT,
+    >             manager_id INT,
+    >             dapartment_id INT
+    >         )
+    >         ROW FORMAT DELIMITED
+    >         FIELDS TERMINATED BY ','
+    >         STORED AS TEXTFILE
+    >         LOCATION '/user/hduser/hr_db/' ;
+
+hive> SHOW TABLES ;
+hive> DESCRIBE employees ;
+hive> SELECT * FROM employees ;
+
+2. Solve the following use cases using Hive SQL or Spark RDD or Spark DF (Pick any one of these)
+   a. Retrieve last_name, first_name, salary, salary+300 as increment salary from employees table
+query=("select last_name,first_name,salary, salary+300 as incremental_salary from EMPLOYEES")
+spark.sql(query).show()
+
+select last_name, first_name, salary,salary+300 as increment from `employees` 
+
+   b. Find out the ID's of departments in which employees are working
+
+SELECT  department_id FROM departments 
+WHERE department_id 
+IN (select department_id FROM employees);
+query=("SELECT  department_id FROM departments 
+WHERE department_id 
+IN (select department_id FROM employees)")
+spark.sql(query).show()
+
+   c. Retrieve last_name, job_id, department_id of employee having last name as Whalen 
+
+SELECT  last_name, job_id, department_id from employees where last_name="Whalen"
+query=("SELECT  last_name, job_id, department_id from employees where last_name="Whalen"")
+spark.sql(query).show()
+
+   d. Retrieve last name and salary of all employees who have salary greater than 5000 working in department 90
+
+SELECT last_name, salary from employees where salary>5000 and department_id=90
+query=("SELECT last_name, salary from employees where salary>5000 and department_id=90")
+spark.sql(query).show()
+
+   e. Retrieve last_name, salary of all employees working as 'SA_REP','AD_PRES' earning above 5000, sort the data in ascending order of last name
+
+SELECT last_name, salary from employees where salary>5000 and (job_id="SA_REP" OR job_id="AD_PRES" ) order by last_name
+query=("SELECT last_name, salary from employees where salary>5000 and (job_id="SA_REP" OR job_id="AD_PRES" ) order by last_name")
+spark.sql(query).show()
+
+   f. Retrieve the last names of employees whose last but one character of the last name is e
+
+SELECT last_name from employees where last_name LIKE '%e%'
+query=("SELECT last_name from employees where last_name LIKE '%e%'")
+spark.sql(query).show()
+
+   g. Retrieve the names of employees not having managers
+
+Select concat(first_name, " ",last_name) as name from employees WHERE manager_id IS NULL
+query=("Select concat(first_name, " ",last_name) as name from employees WHERE manager_id IS NULL")
+spark.sql(query).show()
+
+   h. Retrieve the employee name and the name of the department in which the employee is working
+
+SELECT   department_name, concat(first_name, " ",last_name) as name
+FROM departments 
+JOIN employees 
+ON employees.department_id = departments.department_id 
+query=("SELECT   department_name, concat(first_name, " ",last_name) as name
+FROM departments 
+JOIN employees 
+ON employees.department_id = departments.department_id ")
+spark.sql(query).show()
+
+   i. List all the department ids having SIX employees
+
+SELECT D.department_id FROM
+departments D WHERE (SELECT COUNT(*) 
+                    FROM employees E 
+                    WHERE E.department_id = D.department_id ) =6
+
+query=("SELECT D.department_id FROM
+departments D WHERE (SELECT COUNT(*) 
+                    FROM employees E 
+                    WHERE E.department_id = D.department_id ) =6")
+spark.sql(query).show()

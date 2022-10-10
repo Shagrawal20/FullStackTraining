@@ -1,0 +1,43 @@
+Exercise - 
+As a part of this exercise, use the below Student data to import in database table.
+Sample Data –
+Student Name	StudentRollNo	Class	Age	Father's Name
+AJAY KUMAR	IETLINF01	X	16	PREM KUMAR
+RAJAT MISHRA	IETLINF02	XI	17	PANKAJ MISHRA
+SUDHEER SHARMA	IETLINF03	IX	15	SUNDER SHARMA
+NANCY KAUR	IETLINF04	XII	18	AK SINGH
+SUMITA SHARMA	IETLINF05	IV	14	AJAY SHARMA
+NANDINI GUPTA	IETLINF06	VII	18	RAM GUPTA
+RAM KUMAR	IETLINF07	X	16	RAMAN KUMAR
+
+Tasks
+/*Create above table in database and insert the data.*/
+create table STUDENT (
+    Student_Name varchar2(4000) not null,
+    Student_RollNo varchar2(4000) not null,
+    Student_Class varchar2(4000) not null,
+    Age number not null,
+    Fathers_Name varchar2(4000)
+);
+
+INSERT INTO STUDENT VALUES ('AJAY KUMAR','IETLINF01','X',16,'PREM KUMAR'); 
+INSERT INTO STUDENT VALUES ('RAJAT MISHRA','IETLINF02','XI',17,'PANKAJ MISHRA');
+INSERT INTO STUDENT VALUES ('SUDHEER SHARMA','IETLINF03','IX',15,'SUNDER SHARMA'); 
+INSERT INTO STUDENT VALUES ('NANCY KAUR','IETLINF04','XII',18,'AK SINGH');
+INSERT INTO STUDENT VALUES ('SUMITA SHARMA','IETLINF05','IV',14,'AJAY SHARMA'); 
+INSERT INTO STUDENT VALUES ('NANDINI GUPTA','IETLINF06','VII',18,'RAM GUPTA') ;
+INSERT INTO STUDENT VALUES ('RAM KUMAR','IETLINF07','X',16,'RAMAN KUMAR');
+
+/*2-Write sql query to find out total number of students in each class.*/
+SELECT Student_Class ,COUNT(1) as Total_Students FROM STUDENT GROUP BY Student_Class;
+
+/*3-Write sql query to find out average age of students in each class.*/
+SELECT Student_Class ,AVG(AGE) as Average_Age FROM STUDENT GROUP BY Student_Class;
+
+/*4-Write sql query to find out the number of students having same roll no.*/
+INSERT INTO STUDENT VALUES ('ABC XYZ','IETLINF07','IV',16,'RAMAN XYZ');
+SELECT Student_RollNo ,count(1) as Number_Of_Students FROM STUDENT GROUP BY Student_RollNo;
+
+/*5-Write sql query to view the duplicate name of a student from the table.*/
+INSERT INTO STUDENT VALUES ('ABC XYZ','IETLINF06','XI',17,'RAMAN ABC');
+SELECT STUDENT_NAME,COUNT(STUDENT_NAME) AS DUPLICATE_NAME_COUNT FROM STUDENT GROUP BY STUDENT_NAME HAVING COUNT(STUDENT_NAME)>1;
